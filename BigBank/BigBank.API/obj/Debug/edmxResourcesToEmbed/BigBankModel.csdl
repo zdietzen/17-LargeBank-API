@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BigBankModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="account">
+    <Key>
+      <PropertyRef Name="AccountId" />
+    </Key>
+    <Property Name="AccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerId" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="AccountNumber" Type="Int32" Nullable="false" />
+    <Property Name="Balance" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="customer" Relationship="Self.FK__account__Custome__1273C1CD" FromRole="account" ToRole="customer" />
+    <NavigationProperty Name="statements" Relationship="Self.FK__statement__Accou__182C9B23" FromRole="account" ToRole="statement" />
+    <NavigationProperty Name="transactions" Relationship="Self.FK__transacti__Accou__15502E78" FromRole="account" ToRole="transaction" />
+  </EntityType>
+  <EntityType Name="customer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Address1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Address2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="State" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Zip" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="accounts" Relationship="Self.FK__account__Custome__1273C1CD" FromRole="customer" ToRole="account" />
+  </EntityType>
+  <EntityType Name="statement">
+    <Key>
+      <PropertyRef Name="StatementId" />
+    </Key>
+    <Property Name="StatementId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountId" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="account" Relationship="Self.FK__statement__Accou__182C9B23" FromRole="statement" ToRole="account" />
+  </EntityType>
+  <EntityType Name="transaction">
+    <Key>
+      <PropertyRef Name="TransactionId" />
+    </Key>
+    <Property Name="TransactionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountId" Type="Int32" Nullable="false" />
+    <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Amount" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+    <NavigationProperty Name="account" Relationship="Self.FK__transacti__Accou__15502E78" FromRole="transaction" ToRole="account" />
+  </EntityType>
+  <Association Name="FK__account__Custome__1273C1CD">
+    <End Role="customer" Type="Self.customer" Multiplicity="1" />
+    <End Role="account" Type="Self.account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customer">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="account">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__statement__Accou__182C9B23">
+    <End Role="account" Type="Self.account" Multiplicity="1" />
+    <End Role="statement" Type="Self.statement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="account">
+        <PropertyRef Name="AccountId" />
+      </Principal>
+      <Dependent Role="statement">
+        <PropertyRef Name="AccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__transacti__Accou__15502E78">
+    <End Role="account" Type="Self.account" Multiplicity="1" />
+    <End Role="transaction" Type="Self.transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="account">
+        <PropertyRef Name="AccountId" />
+      </Principal>
+      <Dependent Role="transaction">
+        <PropertyRef Name="AccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BigBankEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="accounts" EntityType="Self.account" />
+    <EntitySet Name="customers" EntityType="Self.customer" />
+    <EntitySet Name="statements" EntityType="Self.statement" />
+    <EntitySet Name="transactions" EntityType="Self.transaction" />
+    <AssociationSet Name="FK__account__Custome__1273C1CD" Association="Self.FK__account__Custome__1273C1CD">
+      <End Role="customer" EntitySet="customers" />
+      <End Role="account" EntitySet="accounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__statement__Accou__182C9B23" Association="Self.FK__statement__Accou__182C9B23">
+      <End Role="account" EntitySet="accounts" />
+      <End Role="statement" EntitySet="statements" />
+    </AssociationSet>
+    <AssociationSet Name="FK__transacti__Accou__15502E78" Association="Self.FK__transacti__Accou__15502E78">
+      <End Role="account" EntitySet="accounts" />
+      <End Role="transaction" EntitySet="transactions" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

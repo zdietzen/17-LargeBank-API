@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BigBankModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="account">
+    <Key>
+      <PropertyRef Name="AccountId" />
+    </Key>
+    <Property Name="AccountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="AccountNumber" Type="int" Nullable="false" />
+    <Property Name="Balance" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="customer">
+    <Key>
+      <PropertyRef Name="CustomerId" />
+    </Key>
+    <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address1" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Address2" Type="varchar" MaxLength="100" />
+    <Property Name="City" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="State" Type="varchar" MaxLength="40" Nullable="false" />
+    <Property Name="Zip" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="statement">
+    <Key>
+      <PropertyRef Name="StatementId" />
+    </Key>
+    <Property Name="StatementId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccountId" Type="int" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="StartDate" Type="datetime" Nullable="false" />
+    <Property Name="EndDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="transaction">
+    <Key>
+      <PropertyRef Name="TransactionId" />
+    </Key>
+    <Property Name="TransactionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccountId" Type="int" Nullable="false" />
+    <Property Name="TransactionDate" Type="datetime" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__account__Custome__1273C1CD">
+    <End Role="customer" Type="Self.customer" Multiplicity="1" />
+    <End Role="account" Type="Self.account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customer">
+        <PropertyRef Name="CustomerId" />
+      </Principal>
+      <Dependent Role="account">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__statement__Accou__182C9B23">
+    <End Role="account" Type="Self.account" Multiplicity="1" />
+    <End Role="statement" Type="Self.statement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="account">
+        <PropertyRef Name="AccountId" />
+      </Principal>
+      <Dependent Role="statement">
+        <PropertyRef Name="AccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__transacti__Accou__15502E78">
+    <End Role="account" Type="Self.account" Multiplicity="1" />
+    <End Role="transaction" Type="Self.transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="account">
+        <PropertyRef Name="AccountId" />
+      </Principal>
+      <Dependent Role="transaction">
+        <PropertyRef Name="AccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BigBankModelStoreContainer">
+    <EntitySet Name="account" EntityType="Self.account" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="customer" EntityType="Self.customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="statement" EntityType="Self.statement" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="transaction" EntityType="Self.transaction" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__account__Custome__1273C1CD" Association="Self.FK__account__Custome__1273C1CD">
+      <End Role="customer" EntitySet="customer" />
+      <End Role="account" EntitySet="account" />
+    </AssociationSet>
+    <AssociationSet Name="FK__statement__Accou__182C9B23" Association="Self.FK__statement__Accou__182C9B23">
+      <End Role="account" EntitySet="account" />
+      <End Role="statement" EntitySet="statement" />
+    </AssociationSet>
+    <AssociationSet Name="FK__transacti__Accou__15502E78" Association="Self.FK__transacti__Accou__15502E78">
+      <End Role="account" EntitySet="account" />
+      <End Role="transaction" EntitySet="transaction" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
