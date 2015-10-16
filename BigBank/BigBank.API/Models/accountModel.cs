@@ -5,25 +5,21 @@ using System.Web;
 
 namespace BigBank.API.Models
 {
-    public class customerModel
+    public class accountModel
     {
+        public int AccountId { get; set; }
         public int CustomerId { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Address1 { get; set; }
-        public string Address2 { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Zip { get; set; }
-
+        public int AccountNumber { get; set; }
+        public int Balance { get; set; }
         public string accountsUrl
         {
             //Ask Cameron why this is here and what it does exactly...
             get
             {  
-                return "api/customers/"+ CustomerId;
+                return "api/accounts/"+ AccountId;
             }
         }
     }
+
 }

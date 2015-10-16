@@ -124,14 +124,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BigBankModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\accountsController.cs" />
     <Compile Include="Controllers\customersController.cs" />
+    <Compile Include="Controllers\transactionsController.cs" />
     <Compile Include="customer.cs">
       <DependentUpon>BigBankModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\accountModel.cs" />
     <Compile Include="Models\customerModel.cs" />
+    <Compile Include="Models\transactionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="statement.cs">
       <DependentUpon>BigBankModel.tt</DependentUpon>

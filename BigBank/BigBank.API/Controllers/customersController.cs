@@ -35,16 +35,29 @@ namespace BigBank.API.Controllers
         }
 
         // GET: api/customers/5
-        [ResponseType(typeof(customer))]
+        [ResponseType(typeof(customerModel))]
         public IHttpActionResult Getcustomer(int id)
         {
-            customer customer = db.customers.Find(id);
-            if (customer == null)
+            customer dbCustomer = db.customers.Find(id);
+
+            if (dbCustomer == null)
             {
                 return NotFound();
             }
+            customerModel modelCustomer = new customerModel
+            {
+                CustomerId = dbCustomer.CustomerId,
+                FirstName = dbCustomer.FirstName,
+                LastName = dbCustomer.LastName,
+                CreatedDate = dbCustomer.CreatedDate,
+                Address1 = dbCustomer.Address1,
+                Address2 = dbCustomer.Address2,
+                City = dbCustomer.City,
+                State = dbCustomer.State,
+                Zip = dbCustomer.Zip,
+            };
 
-            return Ok(customer);
+            return Ok(modelCustomer);
         }
 
         // PUT: api/customers/5
